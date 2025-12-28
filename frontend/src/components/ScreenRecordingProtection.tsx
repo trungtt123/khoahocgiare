@@ -141,6 +141,7 @@ export default function ScreenRecordingProtection({ children }: ScreenRecordingP
     // Add watermark overlay
     const watermark = document.createElement('div');
     watermark.id = 'watermark';
+    const username = getCurrentUser();
     watermark.style.cssText = `
       position: fixed;
       top: 0;
@@ -149,7 +150,7 @@ export default function ScreenRecordingProtection({ children }: ScreenRecordingP
       height: 100%;
       pointer-events: none;
       z-index: 9999;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><text x="50%" y="50%" font-family="Arial" font-size="20" fill="rgba(0,0,0,0.1)" text-anchor="middle" dy=".3em">Protected Content</text></svg>') repeat;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><text x="50%" y="50%" font-family="Arial" font-size="20" fill="rgba(0,0,0,0.1)" text-anchor="middle" dy=".3em">${username}</text></svg>') repeat;
       animation: watermarkMove 20s linear infinite;
     `;
     document.body.appendChild(watermark);
@@ -228,8 +229,18 @@ export default function ScreenRecordingProtection({ children }: ScreenRecordingP
     <div ref={videoRef} className="relative">
       {children}
       <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
-        🔒 Protected
+        👤 {getCurrentUser()}
       </div>
     </div>
   );
+
+  function getCurrentUser(): string {
+    try {
+      const userStr = localStorage.getItem('user');
+      const user = userStr ? JSON.parse(userStr) : null;
+      return user?.username || 'Guest';
+    } catch {
+      return 'Guest';
+    }
+  }
 }
