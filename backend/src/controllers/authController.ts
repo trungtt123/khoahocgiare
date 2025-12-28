@@ -35,12 +35,14 @@ export async function register(req: Request, res: Response) {
         password: passwordHash,
         role,
         maxDevices: req.body.maxDevices || 3,
+        expiresAt: req.body.expiresAt ? new Date(req.body.expiresAt) : null,
       },
       select: {
         id: true,
         username: true,
         role: true,
         maxDevices: true,
+        expiresAt: true,
         createdAt: true,
       },
     });
@@ -85,6 +87,11 @@ export async function login(req: Request, res: Response) {
 
     if (!isValidPassword) {
       return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Check if user account has expired
+    if (user.expiresAt && new Date(user.expiresAt) < new Date()) {
+      return res.status(401).json({ error: 'Account has expired. Please contact administrator.' });
     }
 
     // Generate token
@@ -150,6 +157,7 @@ export async function getAllUsers(req: AuthRequest, res: Response) {
         username: true,
         role: true,
         maxDevices: true,
+        expiresAt: true,
         createdAt: true,
       },
       orderBy: { createdAt: 'desc' },
@@ -202,11 +210,15 @@ export async function createUser(req: AuthRequest, res: Response) {
         username,
         password: passwordHash,
         role,
+        maxDevices: req.body.maxDevices || 3,
+        expiresAt: req.body.expiresAt ? new Date(req.body.expiresAt) : null,
       },
       select: {
         id: true,
         username: true,
         role: true,
+        maxDevices: true,
+        expiresAt: true,
         createdAt: true,
       },
     });
@@ -324,6 +336,7 @@ export async function updateUserMaxDevices(req: AuthRequest, res: Response) {
         username: true,
         role: true,
         maxDevices: true,
+        expiresAt: true,
         createdAt: true,
       },
     });
@@ -334,6 +347,44 @@ export async function updateUserMaxDevices(req: AuthRequest, res: Response) {
     });
   } catch (error) {
     console.error('Update user max devices error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+export async function updateUserExpiresAt(req: AuthRequest, res: Response) {
+  try {
+    // Check if user is admin
+    const currentUser = await prisma.user.findUnique({
+      where: { id: req.user!.userId },
+      select: { role: true },
+    });
+
+    if (!currentUser || currentUser.role !== 'admin') {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+
+    const { userId } = req.params;
+    const { expiresAt } = req.body;
+
+    const user = await prisma.user.update({
+      where: { id: parseInt(userId) },
+      data: { expiresAt: expiresAt ? new Date(expiresAt) : null },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        maxDevices: true,
+        expiresAt: true,
+        createdAt: true,
+      },
+    });
+
+    res.json({
+      message: 'User expires at updated successfully',
+      user,
+    });
+  } catch (error) {
+    console.error('Update user expires at error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }

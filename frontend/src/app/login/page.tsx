@@ -15,19 +15,25 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
+    // setLoading(true);
 
     try {
       // Login first to get token
       const loginResponse = await authAPI.login(username, password);
-      setAuth(loginResponse.token, loginResponse.user);
-
+      console.log('Login response:', loginResponse);
+      
+      // Set token temporarily for device API calls (but don't set full auth yet)
+      localStorage.setItem('token', loginResponse.token);
+      localStorage.setItem('user', JSON.stringify(loginResponse.user));
+      
       // For admin, skip device check
       if (loginResponse.user.role === 'admin') {
-        // Admin login successful - redirect immediately
+        // Admin login successful - set auth and redirect immediately
+        setAuth(loginResponse.token, loginResponse.user);
         if (isAdmin()) {
           router.push('/admin');
         } else {
+
           router.push('/');
         }
         return;
@@ -54,8 +60,9 @@ export default function LoginPage() {
         const devicesResponseWithFingerprint = await deviceAPI.check(deviceInfo);
         
         if (devicesResponseWithFingerprint.allowed) {
-          // Device check successful - login complete
+          // Device check successful - set auth and login complete
           console.log('Device check successful:', devicesResponseWithFingerprint);
+          setAuth(loginResponse.token, loginResponse.user);
         } else {
           // Device check failed
           console.log('Device check failed:', devicesResponseWithFingerprint);
@@ -86,7 +93,16 @@ export default function LoginPage() {
         router.push('/');
       }
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Đăng nhập thất bại');
+      const errorMessage = err.response?.data?.error || 'Đăng nhập thất bại';
+      console.error('Login error:', errorMessage);
+      // Custom messages for specific error types
+      if (errorMessage.includes('expired') || errorMessage.includes('hết hạn')) {
+        setError('Tài khoản của bạn đã hết hạn. Vui lòng liên hệ quản trị viên để gia hạn.');
+      } else if (errorMessage.includes('Invalid credentials') || errorMessage.includes('credentials')) {
+        setError('Tên đăng nhập hoặc mật khẩu không đúng.');
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }

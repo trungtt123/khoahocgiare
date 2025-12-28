@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://103.82.26.223:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://103.82.26.223:3001';
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,
@@ -35,7 +35,8 @@ api.interceptors.request.use(async (config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // Only handle 401 for protected routes, not for login endpoint
+    if (error.response?.status === 401 && !error.config?.url?.includes('/auth/login')) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
@@ -58,7 +59,7 @@ export const authAPI = {
     const response = await api.get('/auth/users');
     return response.data;
   },
-  createUser: async (userData: { username: string; password: string; role: string; maxDevices?: number }) => {
+  createUser: async (userData: { username: string; password: string; role: string; maxDevices?: number; expiresAt?: string }) => {
     const response = await api.post('/auth/users', userData);
     return response.data;
   },
@@ -68,6 +69,10 @@ export const authAPI = {
   },
   updateUserMaxDevices: async (userId: number, maxDevices: number) => {
     const response = await api.put(`/auth/users/${userId}/maxDevices`, { maxDevices });
+    return response.data;
+  },
+  updateUserExpiresAt: async (userId: number, expiresAt: string | null) => {
+    const response = await api.put(`/auth/users/${userId}/expiresAt`, { expiresAt });
     return response.data;
   },
   deleteUser: async (userId: number) => {

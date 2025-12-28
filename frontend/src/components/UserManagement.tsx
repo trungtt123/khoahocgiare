@@ -8,6 +8,7 @@ interface User {
   username: string;
   role: string;
   maxDevices: number;
+  expiresAt: string | null;
   createdAt: string;
 }
 
@@ -16,7 +17,7 @@ export default function UserManagement() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [newUser, setNewUser] = useState({ username: '', password: '', role: 'user', maxDevices: 3 });
+  const [newUser, setNewUser] = useState({ username: '', password: '', role: 'user', maxDevices: 3, expiresAt: '' });
   const [creating, setCreating] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -47,7 +48,7 @@ export default function UserManagement() {
 
     try {
       await authAPI.createUser(newUser);
-      setNewUser({ username: '', password: '', role: 'user', maxDevices: 3 });
+      setNewUser({ username: '', password: '', role: 'user', maxDevices: 3, expiresAt: '' });
       setShowCreateForm(false);
       loadUsers();
     } catch (error: any) {
@@ -75,6 +76,7 @@ export default function UserManagement() {
       username: user.username,
       role: user.role,
       maxDevices: user.maxDevices,
+      expiresAt: user.expiresAt ? new Date(user.expiresAt).toISOString().slice(0, 16) : '',
     });
     setShowEditModal(true);
     // Load devices for this user
@@ -96,6 +98,10 @@ export default function UserManagement() {
       // Update max devices if changed
       if (editFormData.maxDevices !== editingUser.maxDevices) {
         await authAPI.updateUserMaxDevices(editingUser.id, editFormData.maxDevices!);
+      }
+      // Update expires at if changed
+      if (editFormData.expiresAt !== editingUser.expiresAt) {
+        await authAPI.updateUserExpiresAt(editingUser.id, editFormData.expiresAt || null);
       }
 
       setShowEditModal(false);
@@ -223,6 +229,18 @@ export default function UserManagement() {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
+            <div>
+              <label htmlFor="expiresAt" className="block text-sm font-medium text-gray-700">
+                Expires At (Optional)
+              </label>
+              <input
+                type="datetime-local"
+                id="expiresAt"
+                value={newUser.expiresAt}
+                onChange={(e) => setNewUser({ ...newUser, expiresAt: e.target.value })}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
             <div className="flex gap-2">
               <button
                 type="submit"
@@ -266,6 +284,9 @@ export default function UserManagement() {
                     </p>
                     <p className="text-sm text-gray-500">
                       Max Devices: {user.maxDevices}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Expires: {user.expiresAt ? new Date(user.expiresAt).toLocaleDateString() : 'Never'}
                     </p>
                     <p className="text-sm text-gray-500">
                       Created: {new Date(user.createdAt).toLocaleDateString()}
@@ -330,6 +351,10 @@ export default function UserManagement() {
                         <span className="font-medium block">Max Devices:</span>
                         <span className="text-gray-900">{editingUser.maxDevices}</span>
                       </div>
+                      <div>
+                        <span className="font-medium block">Expires:</span>
+                        <span className="text-gray-900">{editingUser.expiresAt ? new Date(editingUser.expiresAt).toLocaleString() : 'Never'}</span>
+                      </div>
                       <div className="col-span-2">
                         <span className="font-medium block">Created:</span>
                         <span className="text-gray-900">{new Date(editingUser.createdAt).toLocaleString()}</span>
@@ -377,6 +402,18 @@ export default function UserManagement() {
                         max="10"
                         value={editFormData.maxDevices !== undefined ? editFormData.maxDevices : editingUser.maxDevices}
                         onChange={(e) => setEditFormData({ ...editFormData, maxDevices: parseInt(e.target.value) })}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="editExpiresAt" className="block text-sm font-medium text-gray-700">
+                        Expires At (Optional)
+                      </label>
+                      <input
+                        type="datetime-local"
+                        id="editExpiresAt"
+                        value={editFormData.expiresAt !== undefined ? editFormData.expiresAt : (editingUser.expiresAt ? new Date(editingUser.expiresAt).toISOString().slice(0, 16) : '')}
+                        onChange={(e) => setEditFormData({ ...editFormData, expiresAt: e.target.value })}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
