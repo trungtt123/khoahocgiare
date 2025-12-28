@@ -10,8 +10,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors());
+// Middleware - Simple CORS configuration
+app.use(cors({
+  origin: true,  // Allow all origins
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes
@@ -27,4 +30,3 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
