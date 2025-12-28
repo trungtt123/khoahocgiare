@@ -41,16 +41,16 @@ export default function ScreenRecordingProtection({ children }: ScreenRecordingP
 
     // Detect developer tools and screen recording software
     const detectDevTools = () => {
-      const threshold = 160;
-      if (window.outerHeight - window.innerHeight > threshold || 
-          window.outerWidth - window.innerWidth > threshold) {
-        // Developer tools might be open
-        document.body.style.display = 'none';
-        setTimeout(() => {
-          alert('Developer tools are not allowed on this page.');
-          window.location.reload();
-        }, 100);
-      }
+      // const threshold = 160;
+      // if (window.outerHeight - window.innerHeight > threshold || 
+      //     window.outerWidth - window.innerWidth > threshold) {
+      //   // Developer tools might be open
+      //   document.body.style.display = 'none';
+      //   setTimeout(() => {
+      //     alert('Developer tools are not allowed on this page.');
+      //     window.location.reload();
+      //   }, 100);
+      // }
     };
 
     // Detect screen recording apps (basic detection)
