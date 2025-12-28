@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'video-backend',
       script: './backend/dist/index.js',
-      cwd: '/var/www/video-platform/khoahocgiare/backend',
+      cwd: '/var/www/video-platform/khoahocgiare',
       instances: 'max',
       exec_mode: 'cluster',
       env: {
