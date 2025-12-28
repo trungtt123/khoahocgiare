@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'video-backend',
       script: './backend/dist/index.js',
-      cwd: '/var/www/video-platform/backend',
+      cwd: '/var/www/video-platform/khoahocgiare/backend',
       instances: 'max',
       exec_mode: 'cluster',
       env: {
@@ -19,7 +19,7 @@ module.exports = {
       name: 'video-frontend',
       script: 'node_modules/next/dist/bin/next',
       args: 'start',
-      cwd: '/var/www/video-platform/frontend',
+      cwd: '/var/www/video-platform/khoahocgiare/frontend',
       instances: 'max',
       exec_mode: 'cluster',
       env: {
