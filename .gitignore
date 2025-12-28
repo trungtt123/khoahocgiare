@@ -60,7 +60,8 @@ docker-compose.prod.yml
 
 # PM2
 logs/
-ecosystem.config.js
+ecosystem.config.local.js
+ecosystem.config.prod.js
 .pm2/
 
 # Nginx
