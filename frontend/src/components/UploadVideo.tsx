@@ -44,7 +44,7 @@ export default function UploadVideo({ onUpload }: UploadVideoProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 max-w-2xl">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Upload Video</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">Tải Video</h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
@@ -55,13 +55,13 @@ export default function UploadVideo({ onUpload }: UploadVideoProps) {
         
         {success && (
           <div className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded">
-            Video uploaded successfully! Processing may take a few minutes.
+            Video đã được tải lên thành công! Đang xử lý có thể mất vài phút.
           </div>
         )}
 
         <div>
           <label htmlFor="videoUrl" className="block text-sm font-medium text-gray-700 mb-1">
-            Abyss.to Video Link *
+            Link Video Abyss.to *
           </label>
           <input
             id="videoUrl"
@@ -69,24 +69,24 @@ export default function UploadVideo({ onUpload }: UploadVideoProps) {
             required
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
-            placeholder="Any Abyss.to link (embed, short link, etc.)"
+            placeholder="Bất kỳ link Abyss.to (embed, short link, v.v.)"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
           <p className="mt-1 text-sm text-gray-500">
-            Paste any Abyss.to video link. All formats are supported including embed links, short links, etc.
+            Dán bất kỳ link video Abyss.to. Tất cả định dạng được hỗ trợ.
           </p>
         </div>
 
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-            Title (optional)
+            Tiêu đề (tùy chọn)
           </label>
           <input
             id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="My Video Title"
+            placeholder="Tiêu đề video của tôi"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
@@ -96,20 +96,20 @@ export default function UploadVideo({ onUpload }: UploadVideoProps) {
           disabled={loading}
           className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
         >
-          {loading ? 'Uploading...' : 'Upload Video'}
+          {loading ? 'Đang tải lên...' : 'Tải Video'}
         </button>
       </form>
 
       <div className="mt-6 p-4 bg-gray-50 rounded-md">
-        <h3 className="text-sm font-medium text-gray-900 mb-2">How to use:</h3>
+        <h3 className="text-sm font-medium text-gray-900 mb-2">Cách sử dụng:</h3>
         <ol className="text-sm text-gray-600 space-y-1 list-decimal list-inside">
-          <li>Go to <a href="https://abyss.to" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">abyss.to</a> and upload your video</li>
-          <li>After upload, copy any video link (embed link, short link, etc.)</li>
-          <li>Paste the link in the field above</li>
-          <li>Click "Upload Video" to save it to your account</li>
+          <li>Truy cập <a href="https://abyss.to" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">abyss.to</a> và tải video của bạn lên</li>
+          <li>Sau khi tải xong, sao chép bất kỳ link video (embed, short link, v.v.)</li>
+          <li>Dán link vào ô trên</li>
+          <li>Nhấn "Tải Video" để lưu vào tài khoản của bạn</li>
         </ol>
         <p className="text-xs text-gray-500 mt-2">
-          Note: All Abyss.to link formats are supported
+          Lưu ý: Tất cả định dạng link Abyss.to đều được hỗ trợ
         </p>
       </div>
     </div>

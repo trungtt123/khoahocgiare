@@ -62,7 +62,7 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
           />
         </div>
         <div className="mt-4 text-sm text-gray-600 select-none">
-          <p>🔒 This content is protected. Screen recording and screenshots are disabled.</p>
+          <p>🔒 Nội dung này được bảo vệ. Quay phim và chụp màn hình bị vô hiệu hóa.</p>
         </div>
       </div>
     </ScreenRecordingProtection>

@@ -113,21 +113,34 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-gradient-to-r from-blue-600 to-indigo-700 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Video Platform
-            </h1>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-1.05.174v-4.102l.69-.281z"/>
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-white">
+                  Khoá Học Giá Rẻ
+                </h1>
+                <p className="text-blue-100 text-sm">
+                  Nền tảng học tập trực tuyến
+                </p>
+              </div>
+            </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
-                Welcome, {user?.username}
-              </span>
+              <div className="text-right">
+                <p className="text-sm text-blue-100">Xin chào,</p>
+                <p className="text-white font-medium">{user?.username}</p>
+              </div>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors"
               >
-                Logout
+                Đăng xuất
               </button>
             </div>
           </div>
@@ -140,43 +153,69 @@ export default function Home() {
           <div>
             <button
               onClick={() => setSelectedVideo(null)}
-              className="mb-4 text-sm text-indigo-600 hover:text-indigo-500"
+              className="mb-6 flex items-center text-blue-600 hover:text-blue-500 transition-colors"
             >
-              ← Back to videos
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Quay lại danh sách video
             </button>
             <VideoPlayer video={selectedVideo} />
           </div>
         ) : (
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
-              Available Videos
-            </h2>
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                Khóa học Video
+              </h2>
+              <p className="text-gray-600">
+                Chọn khóa học bạn muốn xem
+              </p>
+            </div>
             {videos.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-gray-500">No videos available at the moment.</p>
+              <div className="text-center py-16 bg-white rounded-lg shadow-sm">
+                <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">Chưa có khóa học nào</h3>
+                <p className="text-gray-500">Hiện tại chưa có khóa học nào. Vui lòng quay lại sau.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {videos.map((video) => (
                   <ScreenRecordingProtection key={video.id}>
                     <div
-                      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                      className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-1"
                     >
-                      <div className="p-4 select-none">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          {video.title || `Video ${video.id}`}
+                      <div className="aspect-video bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                        <svg className="w-16 h-16 text-white opacity-80 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <div className="p-6 select-none">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                          {video.title || `Khóa học ${video.id}`}
                         </h3>
-                        <p className="text-sm text-gray-500 mb-1">
-                          Uploaded by: {video.user?.username || 'Unknown'}
-                        </p>
-                        <p className="text-sm text-gray-500 mb-4">
-                          {new Date(video.createdAt).toLocaleDateString()}
-                        </p>
+                        <div className="flex items-center text-sm text-gray-500 mb-2">
+                          <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                          </svg>
+                          Giảng viên: {video.user?.username || 'Đang cập nhật'}
+                        </div>
+                        <div className="flex items-center text-sm text-gray-500 mb-4">
+                          <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                          </svg>
+                          {new Date(video.createdAt).toLocaleDateString('vi-VN')}
+                        </div>
                         <button
                           onClick={() => setSelectedVideo(video)}
-                          className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                          className="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex items-center justify-center"
                         >
-                          Watch Video
+                          <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                          </svg>
+                          Xem video
                         </button>
                       </div>
                     </div>

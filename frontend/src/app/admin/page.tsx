@@ -98,24 +98,25 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-gradient-to-r from-purple-600 to-indigo-700 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Admin Dashboard
+              <h1 className="text-2xl font-bold text-white">
+                Trang Quản Trị
               </h1>
-              <p className="text-sm text-gray-600">Manage users and videos</p>
+              <p className="text-purple-100 text-sm">Quản lý người dùng và khóa học</p>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
-                Admin: {user?.username}
-              </span>
+              <div className="text-right">
+                <p className="text-sm text-purple-100">Quản trị viên,</p>
+                <p className="text-white font-medium">{user?.username}</p>
+              </div>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition-colors"
               >
-                Logout
+                Đăng xuất
               </button>
             </div>
           </div>
@@ -134,7 +135,7 @@ export default function AdminPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Users
+              Người dùng
             </button>
             <button
               onClick={() => setActiveTab('videos')}
@@ -144,7 +145,7 @@ export default function AdminPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Videos ({videos.length})
+              Khóa học ({videos.length})
             </button>
             <button
               onClick={() => setActiveTab('upload')}
@@ -154,7 +155,7 @@ export default function AdminPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Upload Video
+              Tải khóa học
             </button>
           </nav>
         </div>
