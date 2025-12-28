@@ -6,6 +6,7 @@ const router = Router();
 
 router.post('/login', login);
 router.get('/me', authMiddleware, getMe);
+router.get('/check-token', authMiddleware, getMe);
 
 // Admin only routes
 router.get('/users', authMiddleware, getAllUsers);
