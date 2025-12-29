@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Video Streaming Website',
-  description: 'Watch videos with device management',
+  title: 'Khóa học giá rẻ',
+  description: 'Nền tảng học tập trực tuyến',
 }
 
 export default function RootLayout({
@@ -17,4 +17,3 @@ export default function RootLayout({
     </html>
   )
 }
-
