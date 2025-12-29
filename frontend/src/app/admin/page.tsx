@@ -105,7 +105,7 @@ export default function AdminPage() {
               <h1 className="text-2xl font-bold text-white">
                 Trang Quản Trị
               </h1>
-              <p className="text-purple-100 text-sm">Quản lý người dùng và khóa học</p>
+              <p className="text-purple-100 text-sm">Quản lý người dùng và video</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
@@ -145,7 +145,7 @@ export default function AdminPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Khóa học ({videos.length})
+              Video ({videos.length})
             </button>
             <button
               onClick={() => setActiveTab('upload')}
@@ -155,7 +155,7 @@ export default function AdminPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Tải khóa học
+              Tải video
             </button>
           </nav>
         </div>

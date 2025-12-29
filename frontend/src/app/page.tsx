@@ -166,10 +166,10 @@ export default function Home() {
           <div>
             <div className="mb-8 text-center">
               <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                Khóa học Video
+                Khóa học của bạn
               </h2>
               <p className="text-gray-600">
-                Chọn khóa học bạn muốn xem
+                Chọn video bạn muốn xem
               </p>
             </div>
             {videos.length === 0 ? (
@@ -200,7 +200,7 @@ export default function Home() {
                           <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                           </svg>
-                          Giảng viên: {video.user?.username || 'Đang cập nhật'}
+                          Người tạo: {video.user?.username || 'Đang cập nhật'}
                         </div>
                         <div className="flex items-center text-sm text-gray-500 mb-4">
                           <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
