@@ -93,36 +93,41 @@ export default function VideoList({ videos, onRefresh }: VideoListProps) {
           <VideoPlayer video={selectedVideo} />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {videos.map((video) => (
             <div
               key={video.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
+              <div className="aspect-[9/16] sm:aspect-video bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                <svg className="w-12 h-12 sm:w-16 sm:h-16 text-white opacity-80" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                </svg>
+              </div>
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                   {video.title || `Video ${video.id}`}
                 </h3>
-                <p className="text-sm text-gray-500 mb-4">
+                <p className="text-xs sm:text-sm text-gray-500 mb-4">
                   {new Date(video.createdAt).toLocaleDateString()}
                 </p>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row">
                   <button
                     onClick={() => setSelectedVideo(video)}
-                    className="flex-1 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                    className="flex-1 px-3 py-2 text-xs sm:text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
                   >
                     Watch
                   </button>
                   <button
                     onClick={() => handleEdit(video)}
-                    className="px-4 py-2 text-sm font-medium text-white bg-yellow-600 rounded-md hover:bg-yellow-700"
+                    className="px-3 py-2 text-xs sm:text-sm font-medium text-white bg-yellow-600 rounded-md hover:bg-yellow-700"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(video.id)}
                     disabled={deleting === video.id}
-                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50"
+                    className="px-3 py-2 text-xs sm:text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50"
                   >
                     {deleting === video.id ? 'Deleting...' : 'Delete'}
                   </button>
