@@ -187,11 +187,6 @@ export default function Home() {
                     <div
                       className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-1"
                     >
-                      <div className="aspect-[9/16] sm:aspect-video bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                        <svg className="w-12 h-12 sm:w-16 sm:h-16 text-white opacity-80 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                        </svg>
-                      </div>
                       <div className="p-4 sm:p-6 select-none">
                         <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3 line-clamp-2">
                           {video.title || `Khóa học ${video.id}`}

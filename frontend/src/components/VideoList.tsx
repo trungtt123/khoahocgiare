@@ -99,11 +99,6 @@ export default function VideoList({ videos, onRefresh }: VideoListProps) {
               key={video.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
-              <div className="aspect-[9/16] sm:aspect-video bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                <svg className="w-12 h-12 sm:w-16 sm:h-16 text-white opacity-80" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                </svg>
-              </div>
               <div className="p-4">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                   {video.title || `Video ${video.id}`}
