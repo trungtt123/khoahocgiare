@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import ScreenRecordingProtection from './ScreenRecordingProtection';
+import CustomYouTubePlayer from './CustomYouTubePlayer';
 
 interface Video {
   id: number;
@@ -33,8 +34,40 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Check if the video is a YouTube link
+  const isYouTubeVideo = (url: string): boolean => {
+    const youtubePatterns = [
+      /youtube\.com\/watch\?v=/,
+      /youtu\.be\//,
+      /youtube\.com\/embed\//
+    ];
+    return youtubePatterns.some(pattern => pattern.test(url));
+  };
+
+  // Extract YouTube video ID from URL
+  const extractYouTubeId = (url: string): string => {
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+      /^([a-zA-Z0-9_-]{11})$/
+    ];
+    
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+    return url;
+  };
+
   // Extract video ID from embed code
   const getVideoUrl = () => {
+    // Check if it's a YouTube video
+    if (video.embedCode && isYouTubeVideo(video.embedCode)) {
+      return video.embedCode;
+    }
+    if (video.abyssVideoId && isYouTubeVideo(video.abyssVideoId)) {
+      return video.abyssVideoId;
+    }
+    
     // Abyss.to embed format: https://abyss.to/e/{videoId}
     if (video.embedCode) {
       return video.embedCode;
@@ -59,6 +92,25 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [video]);
+
+  // Check if current video is YouTube
+  const currentVideoUrl = getVideoUrl();
+  const isCurrentYouTube = isYouTubeVideo(currentVideoUrl);
+
+  // If it's a YouTube video, use the custom player
+  if (isCurrentYouTube) {
+    const youtubeId = extractYouTubeId(currentVideoUrl);
+    return (
+      <CustomYouTubePlayer
+        videoId={youtubeId}
+        title={video.title || `Video ${video.id}`}
+        autoplay={false}
+        muted={true}
+        controls={false}
+        showInfo={false}
+      />
+    );
+  }
 
   // Get responsive container classes based on device and orientation
   const getContainerClasses = () => {
@@ -97,6 +149,7 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
     return "aspect-video";
   };
 
+  // Otherwise, use the original Abyss.to player
   return (
     <ScreenRecordingProtection>
       <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
@@ -109,7 +162,7 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
           <div className={getAspectRatioClasses()}>
             <iframe
               ref={iframeRef}
-              src={getVideoUrl()}
+              src={currentVideoUrl}
               className={getIframeClasses()}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

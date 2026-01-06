@@ -144,7 +144,7 @@ export default function VideoList({ videos, onRefresh }: VideoListProps) {
             <form onSubmit={handleUpdate} className="space-y-4">
               <div>
                 <label htmlFor="videoUrl" className="block text-sm font-medium text-gray-700 mb-1">
-                  Abyss.to Video Link *
+                  Video Link *
                 </label>
                 <input
                   id="videoUrl"
@@ -152,11 +152,11 @@ export default function VideoList({ videos, onRefresh }: VideoListProps) {
                   required
                   value={editForm.videoUrl}
                   onChange={(e) => setEditForm({ ...editForm, videoUrl: e.target.value })}
-                  placeholder="Any Abyss.to link (embed, short link, etc.)"
+                  placeholder="YouTube link (youtube.com/watch?v=..., youtu.be/...) or Abyss.to link"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 <p className="mt-1 text-sm text-gray-500">
-                  Paste any Abyss.to video link. All formats are supported.
+                  Paste any YouTube or Abyss.to video link. All formats are supported.
                 </p>
               </div>
 
